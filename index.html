@@ -90,15 +90,14 @@
 	}
 </style>
 <script>
-	var Global = {}
+	var Global = {'fcur_count':0,'cur_count':0,'challenge_mode':false}
 	$(function(){
 		$("<audio id=\"correct_audio\" style='display:none;'><source src='assets/audio/correct-trim.mp3'/></audio>").appendTo('body')
-		$("#count").text(0);
-		$("#f_count").text(0);
+		$("#count").text(Global.cur_count);
+		$("#f_count").text(Global.fcur_count);
 
 		$.get('generate_qa/25',function(data,res){
 			Global.pairs = getPairs(data)
-			// console.log(pairs.pop())
 			chg_thematic(Global.pairs.pop())
 			eventRegister()
 		})
@@ -110,31 +109,54 @@
 			alert($("#answer").val());
 		});
 		$("#surprise").on('click', function(){
-			var countdown = 60
+			Global.cur_count=0
+			Global.fcur_count=0
+			Global.challenge_mode = true
+			Global.challenge_count = 80
+			$("#count").text(Global.cur_count);
+			$("#count").css({'margin-right':'0'});
+			$(".f_remind").css({'display':'none'})
+			$("#f_count").css({'display':'none'})
+			
+			let countdown = 60
 			$('#lookans').remove()
 			$('#surprise').remove()
-			alert('請於一分鐘內連續答對90題')
+			alert('請於時間內連續答對'+Global.challenge_count+'題')
 			count_down(countdown)
 			$('h1').css({'color':'#FE2E64','font-size':'110px'})
 			setTimeout(function(){
-				alert('Time\'s up!')
-				location.reload()
-			},countdown*1000)
+				challenge_check('Time\'s up\n')
+			},61500)
 		})
 		$('.option').on('click', function(){
 			if($("#answer").val() == $(this).val()){
     			$('#correct_audio')[0].play()
     			chg_thematic(Global.pairs.pop());
     			$('#bg').css({"background-color":"rgb(237, 197, 63)"});
-    			var cur_count = parseInt($("#count").text(),10);
-				$("#count").text(++cur_count);
+				$("#count").text(++Global.cur_count);
     		}else{
+    			if(Global.challenge_mode === true) {
+    				challenge_check()
+    				return false
+    			}
     			$('#bg').css({"background-color":"red"});
-				var fcur_count = parseInt($("#f_count").text(),10);
-				$("#f_count").text(++fcur_count);
+				$("#f_count").text(++Global.fcur_count);
     		}
 		})
 	}
+
+	function challenge_check(str) {
+		if(Global.challenge_mode && Global.cur_count>=Global.challenge_count) {
+			alert('挑戰成功\n請按下F12並點選console頁籤。')
+			let res = "唯有紮實的練習才能有令人滿意的成績，很感謝您的支持\n連結為過去蒐集到的書籍PDF，希望對您能有所幫助\nwww.google.com\n敬祝考上心中理想志願。"
+			console.log(res)
+			return false
+		}
+
+		var str = str || ""
+		alert(str+'挑戰失敗')
+    	location.reload()
+	} 
 
 	function count_down(num) {
 		$('h1').text(num)
@@ -236,7 +258,7 @@
 		<h1 style="font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;color:rgb(119, 110, 101);">Quick Test</h1>
 		<span style="font-family: '微軟正黑體';font-size:20px;color:rgb(119, 110, 101);">累計題數:</span>
 		<span id="count"></span>
-		<span style="font-family: '微軟正黑體';font-size:20px;color:rgb(119, 110, 101);">答錯次數:</span>
+		<span class="f_remind"style="font-family: '微軟正黑體';font-size:20px;color:rgb(119, 110, 101);">答錯次數:</span>
 		<span id="f_count"></span>
 
 	</div>
