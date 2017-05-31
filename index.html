@@ -1,12 +1,10 @@
 ﻿<html>
 <head>
-<title>基本轉換Quiz</title>
+<title>進制轉換Quiz</title>
 
-<meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <link rel=stylesheet type="text/css" href="lib/css/bootstrap.min.css">
 <script type="text/javascript" src="lib/js/jquery.js"></script>
-<script type="text/javascript" src="lib/js/jquery.playSound.js"></script>
 <style type="text/css">
 	body{
 		font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
@@ -20,15 +18,6 @@
 	#thematic{
 		line-height:200px;
 		text-align:center;
-	}
-	#submit{
-		text-align:center;
-		width:80%;
-		height:15%;
-		border-radius:20px;
-		font-size:50px;
-		background-color:rgb(238, 228, 218);
-		color:rgb(119, 110, 101);
 	}
 	#bg{
 		background-color: rgb(237, 197, 63);
@@ -64,23 +53,11 @@
 		.multi{
 			font-size: 20px;
 		}
-		#submit{
-			text-align:center;
-			width:80%;
-			height:40px;
-			border-radius:20px;
-			font-size:20px;
-			background-color:rgb(238, 228, 218);
-			color:rgb(119, 110, 101);
-		}
 		#bg{
 			background-color: rgb(237, 197, 63);
 			color:white;
 			height:120px;
 			border-radius:20px;
-		}
-		#lookans{
-			margin:2px;
 		}
 		.option{
 			display:inline-block;
@@ -113,58 +90,35 @@
 	}
 </style>
 <script>
-	var audio = new Audio('assets/audio/correct.mp3');
-	var pre_n="";
 	$(function(){
-		$("#submit").focus();
-		chg_thematic();
+		$("<audio id=\"correct_audio\" style='display:none;'><source src='assets/audio/correct-trim.mp3'/></audio>").appendTo('body')
 		$("#count").text(0);
 		$("#f_count").text(0);
-		$("#lookans").click(function(){
+		chg_thematic();
+		eventRegister()
+		
+	});
+
+	function eventRegister() {
+		$("#lookans").on('click', function(){
 			alert($("#answer").val());
 		});
-	});
-	// var countdownnumber;
-	// var countdownid,x;
-	// function initial(){
-	//   x=document.getElementById("countdown");
-	//   x.innerHTML=countdownnumber;
-	//   countdownnumber--;
-	//   countdownid=setTimeout(countdownfunc,1000);
-	// }
-	// function countdownfunc(){ 
-	// 	console.log(countdownnumber);
-	// 	setTimeout(countdownfunc,1000);
-	//   x.innerHTML=countdownnumber;
-	//   if (countdownnumber<=0){
-	//   	var fcur_count = parseInt($("#f_count").text(),10);
-	// 	$("#f_count").text(++fcur_count);
-	//     chg_thematic();
-	//   }
-	//   countdownnumber--;
-	// }
-	// $(document).keypress(function(e) {
- //    	if(e.which == 13) {
- //    		if($("#answer").val() == $("#submit").val()){
- //    			audio.play();
- //    			chg_thematic();
- //    			$("#submit").val('');
- //    			$('#bg').css({"background-color":"rgb(237, 197, 63)"});
- //    			var cur_count = parseInt($("#count").text(),10);
-	// 			$("#count").text(++cur_count);
- //    		}else{
- //    			$('#bg').css({"background-color":"red"});
-	// 			var fcur_count = parseInt($("#f_count").text(),10);
-	// 			$("#f_count").text(++fcur_count);
- //    		}
- //    	}
-	// });
-	$(function(){
-		$('.option').click(function(){
+		$("#surprise").on('click', function(){
+			var countdown = 60
+			$('#lookans').remove()
+			$('#surprise').remove()
+			alert('請於一分鐘內連續答對90題')
+			count_down(countdown)
+			$('h1').css({'color':'#FE2E64','font-size':'110px'})
+			setTimeout(function(){
+				alert('Time\'s up!')
+				location.reload()
+			},countdown*1000)
+		})
+		$('.option').on('click', function(){
 			if($("#answer").val() == $(this).val()){
-    			audio.play();
+    			$('#correct_audio')[0].play()
     			chg_thematic();
-    			$("#submit").val('');
     			$('#bg').css({"background-color":"rgb(237, 197, 63)"});
     			var cur_count = parseInt($("#count").text(),10);
 				$("#count").text(++cur_count);
@@ -174,247 +128,64 @@
 				$("#f_count").text(++fcur_count);
     		}
 		})
-	});
-	function chg_thematic(){
-		// countdownnumber=4;
-		// clearInterval(countdownid);
-		// initial();
-		var thematic = {};
-		var answer ={};
-		$.playSound('assets/audio/correct.mp3');
-
-		//part 1:[0]-[14]
-		thematic[0]="2^1=?";
-		answer[0]=2;
-		thematic[1]="2^2=?";
-		answer[1]=4;
-		thematic[2]="2^3=?";
-		answer[2]=8;
-		thematic[3]="2^4=?";
-		answer[3]=16;
-		thematic[4]="2^5=?";
-		answer[4]=32;
-		thematic[5]="2^6=?";
-		answer[5]=64;
-		thematic[6]="2^7=?";
-		answer[6]=128;
-		thematic[7]="2^8=?";
-		answer[7]=256;
-		thematic[8]="2^9=?";
-		answer[8]=512;
-		thematic[9]="2^10=?";
-		answer[9]=1024;
-		thematic[10]="2^11=?";
-		answer[10]=2048;
-		thematic[11]="2^12=?";
-		answer[11]=4096;
-		thematic[12]="2^13=?";
-		answer[12]=8192;
-		thematic[13]="2^14=?";
-		answer[13]=16384;
-		thematic[14]="2^15=?";
-		answer[14]=32768;
-		
-		//part 2:[15]-[29]
-		thematic[15]="2=2^?";
-		answer[15]=1;
-		thematic[16]="4=2^?";
-		answer[16]=2;
-		thematic[17]="8=2^?";
-		answer[17]=3;
-		thematic[18]="16=2^?";
-		answer[18]=4;
-		thematic[19]="32=2^?";
-		answer[19]=5;
-		thematic[20]="64=2^?";
-		answer[20]=6;
-		thematic[21]="128=2^?";
-		answer[21]=7;
-		thematic[22]="256=2^?";
-		answer[22]=8;
-		thematic[23]="512=2^?";
-		answer[23]=9;
-		thematic[24]="1024=2^?";
-		answer[24]=10;
-		thematic[25]="2048=2^?";
-		answer[25]=11;
-		thematic[26]="4096=2^?";
-		answer[26]=12;
-		thematic[27]="8192=2^?";
-		answer[27]=13;
-		thematic[28]="16384=2^?";
-		answer[28]=14;
-		thematic[29]="32768=2^?";
-		answer[29]=15;
-
-		//part 3:[30]-[44]
-		thematic[30]="(1)";
-		answer[30]="0001";
-		thematic[31]="(2)";
-		answer[31]="0010";
-		thematic[32]="(3)";
-		answer[32]="0011";
-		thematic[33]="(4)";
-		answer[33]="0100";
-		thematic[34]="(5)";
-		answer[34]="0101";
-		thematic[35]="(6)";
-		answer[35]="0110";
-		thematic[36]="(7)";
-		answer[36]="0111";
-		thematic[37]="(8)";
-		answer[37]="1000";
-		thematic[38]="(9)";
-		answer[38]="1001";
-		thematic[39]="(10)";
-		answer[39]="1010";
-		thematic[40]="(11)";
-		answer[40]="1011";
-		thematic[41]="(12)";
-		answer[41]="1100";
-		thematic[42]="(13)";
-		answer[42]="1101";
-		thematic[43]="(14)";
-		answer[43]="1110";
-		thematic[44]="(15)";
-		answer[44]="1111";
-
-		//part 4:[45]-[59]
-		thematic[45]="(0001)";
-		answer[45]="1";
-		thematic[46]="(0010)";
-		answer[46]="2";
-		thematic[47]="(0011)";
-		answer[47]="3";
-		thematic[48]="(0100)";
-		answer[48]="4";
-		thematic[49]="(0101)";
-		answer[49]="5";
-		thematic[50]="(0110)";
-		answer[50]="6";
-		thematic[51]="(0111)";
-		answer[51]="7";
-		thematic[52]="(1000)";
-		answer[52]="8";
-		thematic[53]="(1001)";
-		answer[53]="9";
-		thematic[54]="(1010)";
-		answer[54]="10";
-		thematic[55]="(1011)";
-		answer[55]="11";
-		thematic[56]="(1100)";
-		answer[56]="12";
-		thematic[57]="(1101)";
-		answer[57]="13";
-		thematic[58]="(1110)";
-		answer[58]="14";
-		thematic[59]="(1111)";
-		answer[59]="15";
-
-		//part 5:[60]-[65]
-		thematic[60]="(10)";
-		answer[60]="A";
-		thematic[61]="(11)";
-		answer[61]="B";
-		thematic[62]="(12)";
-		answer[62]="C";
-		thematic[63]="(13)";
-		answer[63]="D";
-		thematic[64]="(14)";
-		answer[64]="E";
-		thematic[65]="(15)";
-		answer[65]="F";
-		
-		//初步防止重複
-		var n = random(Object.keys(thematic).length-1,0);
-		while(pre_n==n){
-			n = random(Object.keys(thematic).length-1,0);
-		}
-		pre_n = n;
-		
-		$("#thematic").text(thematic[n]);
-		$("#answer").val(answer[n]);
-		//設定放置順序
-		var arr_seq = [0,1,2,3]
-		var correct_seq =random(3,0);
-		removeA(arr_seq,correct_seq);
-		if(n>=0 && n<=14){
-			$('.option')[correct_seq].value=answer[n];
-			$('.option')[correct_seq].textContent=answer[n];
-			var x = gener_ans(n,14,0);
-			while(arr_seq.length>0){
-				//這邊需修改
-				var ans = x.pop();
-				var nxt_seq = arr_seq.pop();
-				$('.option')[nxt_seq].value=answer[ans];
-				$('.option')[nxt_seq].textContent=answer[ans];
-			}
-		}else if(n>=15 && n<=29){
-			$('.option')[correct_seq].value=answer[n];
-			$('.option')[correct_seq].textContent=answer[n];
-			var x = gener_ans(n,29,15);
-			while(arr_seq.length>0){
-				//這邊需修改
-				var ans = x.pop();
-				var nxt_seq = arr_seq.pop();
-				$('.option')[nxt_seq].value=answer[ans];
-				$('.option')[nxt_seq].textContent=answer[ans];
-			}
-		}else if(n>=30 && n<=44){
-			$("#thematic").html(thematic[n]+"<span class=\"multi\">10</span>=(?)<span class=\"multi\">2</span>");
-			$('.option')[correct_seq].value=answer[n];
-			$('.option')[correct_seq].textContent=answer[n];
-			var x = gener_ans(n,44,30);
-			while(arr_seq.length>0){
-				//這邊需修改
-				var ans = x.pop();
-				var nxt_seq = arr_seq.pop();
-				$('.option')[nxt_seq].value=ans;
-				$('.option')[nxt_seq].textContent=answer[ans];
-			}
-		}else if(n>=45 && n<=59){
-			$("#thematic").html(thematic[n]+"<span class=\"multi\">2</span>=(?)<span class=\"multi\">10</span>");
-			$('.option')[correct_seq].value=answer[n];
-			$('.option')[correct_seq].textContent=answer[n];
-			var x = gener_ans(n,59,45);
-			while(arr_seq.length>0){
-				//這邊需修改
-				var ans = x.pop();
-				var nxt_seq = arr_seq.pop();
-				$('.option')[nxt_seq].value=ans;
-				$('.option')[nxt_seq].textContent=answer[ans];
-			}
-		}else if(n>=60 && n<=65){
-			$("#thematic").text(thematic[n]);
-			$("#thematic").html(thematic[n]+"<span class=\"multi\">10</span>=(?)<span class=\"multi\">16</span>");
-			$('.option')[correct_seq].value=answer[n];
-			$('.option')[correct_seq].textContent=answer[n];
-			var x = gener_ans(n,60,65);
-			console.log(x);
-			while(arr_seq.length>0){
-				//這邊需修改
-				var ans = x.pop();
-				var nxt_seq = arr_seq.pop();
-				$('.option')[nxt_seq].value=ans;
-				$('.option')[nxt_seq].textContent=answer[ans];
-			}
-		}
-
 	}
-	function gener_ans(correct_position,max,min){
-		var arr_option = new Array();
-		arr_option.push(correct_position);
-		while(arr_option.length<=3){
-			var opt = random(max,min);
-			if(isInArray(opt,arr_option)!=true){
-				arr_option.push(opt);
-			}
-		}
-		return arr_option;
+
+	function count_down(num) {
+		$('h1').text(num)
+		if(num===0) return
+		setTimeout(function(){
+			count_down(--num)
+		},1000)
 	}
-	function random(max,min){
-		var n = Math.floor(Math.random() * (max - min + 1)) + min;
-		return n;
+
+	function gen_format(type,q) {
+		var res = ""
+		var pre = "(" + q + ")"
+		var pre_under = ""
+		var post = "( ? )"
+		var post_under = ""
+		switch(type) {
+			case "base2to10":
+				pre_under = "2"
+				post_under = "10"
+				break
+			case "base10to2":
+				pre_under = "10"
+				post_under = "2"
+				break
+			case "base10to16":
+				pre_under = "10"
+				post_under = "16"
+				break
+			case "sqrt10":
+				pre = q
+				post = "2^?"
+				break
+			case "pow10":
+				pre = q
+				post = "?"
+				break
+		}
+		res = pre+"<span class=\"multi\">"+pre_under+"</span>="+post+"<span class=\"multi\">"+post_under+"</span>"
+		return res
+	}
+
+	function chg_thematic(){		
+		$.get('generate_qa',function(data,res){
+			let q = data.ques,
+				opt = data.ans,
+				pos = data.correct_position,
+				type = data.type,
+			    a = opt[pos]
+
+			$("#thematic").html(gen_format(type,q));
+			$("#answer").val(a);
+
+			for(let i=0;i<4;i++) {
+				$('.option')[i].value = opt[i]
+				$('.option')[i].textContent = opt[i]
+			}
+		})
 	}
 	function removeA(arr) {
 	    var what, a = arguments, L = a.length, ax;
@@ -426,11 +197,7 @@
 	    }
 	    return arr;
 	}
-	function isInArray(value, array) {
-		return array.indexOf(value) > -1;
-	}
-	function fix_mobile_hover()
-	{
+	function fix_mobile_hover() {
 	    var el = this;
 	    var par = el.parentNode;
 	    var next = el.nextSibling;
@@ -438,18 +205,14 @@
 	    par.insertBefore(el, next);
 	}
 </script>
-<script type="text/javascript">
-	
-</script>
 </head>
 <body style="background-color:rgb(250, 248, 239);font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;">
-	<div class="container">
+<div class="container">
 	<div style="text-align:center;">
 		<h1 style="font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;color:rgb(119, 110, 101);">Quick Test</h1>
-		<!-- <div id="countdown"></div> -->
 		<span style="font-family: '微軟正黑體';font-size:20px;color:rgb(119, 110, 101);">累計題數:</span>
 		<span id="count"></span>
-		<span style="font-family: '微軟正黑體';font-size:20px;color:rgb(119, 110, 101);">答錯題數:</span>
+		<span style="font-family: '微軟正黑體';font-size:20px;color:rgb(119, 110, 101);">答錯次數:</span>
 		<span id="f_count"></span>
 
 	</div>
@@ -457,15 +220,13 @@
 		<div id="bg">
 			<p id="thematic"></p>
 		</div>
+		<button id="surprise" class="btn btn-danger">挑戰mode</button>
 		<button id="lookans" class="btn btn-info">查看答案</button>
 	</div>
 	<div style="padding:1%;">
-		<!-- <div style="border-radius:20px;text-align:center;"> -->
-			<div style="text-align:center"><button id="1" class="option btn" value="" ontouchend="this.onclick=fix_mobile_hover"></button><button id="2" class="option btn" value="" ontouchend="this.onclick=fix_mobile_hover"></button></div>
-			<div style="text-align:center"><button id="3" class="option btn" value="" ontouchend="this.onclick=fix_mobile_hover"></button><button id="4" class="option btn" value="" ontouchend="this.onclick=fix_mobile_hover"></button></div>
-			<!-- <input id="submit" type="text" placeholder="請輸入答案"/> -->
-			<input id="answer" type="hidden"/>
-		<!-- </div> -->
+		<div style="text-align:center"><button id="1" class="option btn" value="" ontouchend="this.onclick=fix_mobile_hover"></button><button id="2" class="option btn" value="" ontouchend="this.onclick=fix_mobile_hover"></button></div>
+		<div style="text-align:center"><button id="3" class="option btn" value="" ontouchend="this.onclick=fix_mobile_hover"></button><button id="4" class="option btn" value="" ontouchend="this.onclick=fix_mobile_hover"></button></div>
+		<input id="answer" type="hidden"/>
 	</div>
 </div>
 </body>
