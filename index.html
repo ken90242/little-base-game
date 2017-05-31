@@ -90,12 +90,18 @@
 	}
 </style>
 <script>
+	var Global = {}
 	$(function(){
 		$("<audio id=\"correct_audio\" style='display:none;'><source src='assets/audio/correct-trim.mp3'/></audio>").appendTo('body')
 		$("#count").text(0);
 		$("#f_count").text(0);
-		chg_thematic();
-		eventRegister()
+
+		$.get('generate_qa/5',function(data,res){
+			Global.pairs = getPairs(data)
+			// console.log(pairs.pop())
+			chg_thematic(Global.pairs.pop())
+			eventRegister()
+		})
 		
 	});
 
@@ -118,7 +124,7 @@
 		$('.option').on('click', function(){
 			if($("#answer").val() == $(this).val()){
     			$('#correct_audio')[0].play()
-    			chg_thematic();
+    			chg_thematic(Global.pairs.pop());
     			$('#bg').css({"background-color":"rgb(237, 197, 63)"});
     			var cur_count = parseInt($("#count").text(),10);
 				$("#count").text(++cur_count);
@@ -170,23 +176,41 @@
 		return res
 	}
 
-	function chg_thematic(){		
-		$.get('generate_qa',function(data,res){
-			let q = data.ques,
-				opt = data.ans,
-				pos = data.correct_position,
-				type = data.type,
-			    a = opt[pos]
+	function chg_thematic(data){
+		let q = data.ques,
+			opt = data.ans,
+			pos = data.correct_position,
+			type = data.type,
+		    a = opt[pos]
 
-			$("#thematic").html(gen_format(type,q));
-			$("#answer").val(a);
+		$("#thematic").html(gen_format(type,q));
+		$("#answer").val(a);
 
-			for(let i=0;i<4;i++) {
-				$('.option')[i].value = opt[i]
-				$('.option')[i].textContent = opt[i]
-			}
-		})
+		for(let i=0;i<4;i++) {
+			$('.option')[i].value = opt[i]
+			$('.option')[i].textContent = opt[i]
+		}
 	}
+
+	function getPairs(obj) {
+		var _obj = obj || {},
+			fn = {},
+			_num = Object.keys(obj).length
+
+		fn.pop = function() {
+			if(_num<0) return null
+			else if(_num<5) {
+				setTimeout(function(){
+					$.get('generate_qa/2',function(data,res){
+						Global.pairs = getPairs(data)
+					})
+				},0)
+			}
+			return obj[--_num]
+		}
+		return fn
+	}
+
 	function removeA(arr) {
 	    var what, a = arguments, L = a.length, ax;
 	    while (L > 1 && arr.length) {

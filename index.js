@@ -7,9 +7,15 @@ app.use('/lib',express.static(__dirname+'/lib'))
 app.get('/',function(req,res){
 	res.sendFile(__dirname+"/index.html")
 })
-app.get('/generate_qa',function(req,res){
+app.get('/generate_qa/:num',function(req,res){
+	console.log()
 	var gen = require(__dirname+"/assets/js/generate_qa.js")
-	res.send(gen())
+	var obj = {}
+	let _limit = req.params.num || 200
+	for(let i=0;i<_limit;i++) {
+		obj[i] = gen()
+	}
+	res.send(obj)
 })
 var port = process.env.PORT || 3000
 app.listen(port,function(){
