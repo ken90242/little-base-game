@@ -1,0 +1,22 @@
+{
+  "name": "little-base-game",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.html",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ken90242/little-base-game.git"
+  },
+  "keywords": [
+    "base"
+  ],
+  "author": "ken90242",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ken90242/little-base-game/issues"
+  },
+  "homepage": "https://github.com/ken90242/little-base-game#readme"
+}
