@@ -4,5 +4,7 @@ var app = express()
 app.use('/',function(req,res){
 	res.send("index.html")
 })
-
-app.listen(80)
+var port = process.env.PORT || 3000
+app.listen(port,function(){
+	console.log('listening on port:'+port)
+})
