@@ -1,8 +1,11 @@
 var express = require('express')
 var app = express()
 
+app.use('/assets',express.static(__dirname+'/assets'))
+app.use('/lib',express.static(__dirname+'/lib'))
+
 app.get('/',function(req,res){
-	res.sendFile("./index.html")
+	res.sendFile(__dirname+"/index.html")
 })
 var port = process.env.PORT || 3000
 app.listen(port,function(){
