@@ -96,7 +96,7 @@
 		$("#count").text(0);
 		$("#f_count").text(0);
 
-		$.get('generate_qa/5',function(data,res){
+		$.get('generate_qa/25',function(data,res){
 			Global.pairs = getPairs(data)
 			// console.log(pairs.pop())
 			chg_thematic(Global.pairs.pop())
@@ -201,7 +201,7 @@
 			if(_num<0) return null
 			else if(_num<5) {
 				setTimeout(function(){
-					$.get('generate_qa/2',function(data,res){
+					$.get('generate_qa/25',function(data,res){
 						Global.pairs = getPairs(data)
 					})
 				},0)
