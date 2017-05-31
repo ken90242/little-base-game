@@ -2,6 +2,9 @@
   "name": "little-base-game",
   "version": "1.0.0",
   "description": "",
+   "engines": {
+    "node": "6.x.x"
+  },
   "dependencies": {
       "express": ">=4.15.0"
   },
