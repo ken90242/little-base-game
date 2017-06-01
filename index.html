@@ -4,12 +4,25 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <link rel=stylesheet type="text/css" href="lib/css/bootstrap.min.css">
+<!-- <link rel="stylesheet" type="text/css" href="lib/css/sweetalert.css"> -->
+<link rel="stylesheet" href="lib/css/animate.css">
+<link rel="stylesheet" href="lib/css/sweetalert2.min.css">
+
 <link rel="stylesheet" href="assets/css/gigantic-screen.css" />
 <link rel="stylesheet" media="only screen and (max-width: 900px)" href="assets/css/large-screen.css" />
 <link rel="stylesheet" media="only screen and (max-width: 700px)" href="assets/css/median-screen.css" />
-<script type="text/javascript" src="lib/js/jquery.js"></script>
+
+<script src="lib/js/jquery.js"></script>
+<script src="lib/js/sweetalert2.min.js"></script>
+<!-- <script src="lib/js/sweetalert.min.js"></script> -->
 <script>
-	var Global = {'fcur_count':0,'cur_count':0,'challenge_mode':false}
+	/*
+	 * @countdown: goalSec
+	 # @challenge_count: goalToSuccess
+	 * @countdown: leftSec
+	 *
+	 */
+	var Global = {'fcur_count':0,'cur_count':0,'challenge_mode':false,'countdown':60,'_countdown':0,'challenge_count':60,'err_penalty':2}
 	$(function(){
 		$("<audio id=\"correct_audio\" style='display:none;'><source src='assets/audio/correct-trim.mp3'/></audio>").appendTo('body')
 		$("#count").text(Global.cur_count);
@@ -25,24 +38,34 @@
 
 	function eventRegister() {
 		$("#lookans").on('click', function(){
-			alert($("#answer").val());
+			swal("請盡量自行計算", $("#answer").val(),'warning');
 		});
 		$("#surprise").on('click', function(){
 			Global.cur_count=0
 			Global.challenge_mode = true
-			Global.challenge_count = 80
+			Global._countdown = Global.countdown
+			$('#bg').css({"background-color":"rgb(237, 197, 63)"});
+			chg_thematic(Global.pairs.pop());
 			$("#count").text(Global.cur_count);
 			$("#count").css({'margin-right':'0'});
 			$(".f_remind").css({'display':'none'})
 			$("#f_count").css({'display':'none'})
 			$("#normal").css({'display':'inline-block','margin-top':'5px'})
-			Global.countdown = 60
 			$('#lookans').remove()
 			$('#surprise').remove()
-			alert('請於時間內連續答對'+Global.challenge_count+'題')
-			count_down(Global.countdown)
-			$('h1').css({'color':'#FE2E64','font-size':'110px'})
+			swal({
+				title:"成功條件", 
+				text:'請於'+Global.countdown+'秒內"連續"答對'+Global.challenge_count+'題\n若錯誤一次扣秒數'+Global.err_penalty+'秒',
+				type:'info',
+				allowOutsideClick:false
+			}).then(
+				function(){
+					count_down(Global.countdown)
+					$('h1').css({'color':'#FE2E64','font-size':'110px'})
+				}
+			)
 		})
+
 		$('.option').on('click', function(){
 			if($("#answer").val() == $(this).val()){
     			$('#correct_audio')[0].play()
@@ -53,11 +76,8 @@
     			$('#bg').css({"background-color":"red"});
 				$("#f_count").text(++Global.fcur_count);
 				if(Global.challenge_mode === true) {
-					$('h1').text("重新計時")
-					Global.countdown = 60
-					$('h1').text(Global.countdown)
-					Global.cur_count=0
-					$("#count").text(Global.cur_count);
+					Global._countdown = Global._countdown - Global.err_penalty
+					$('h1').text(Global._countdown)
     			}
     		}
 		})
@@ -65,25 +85,80 @@
 
 	function challenge_check(str) {
 		if(Global.challenge_mode && Global.cur_count>=Global.challenge_count) {
-			alert('挑戰成功\n請按下F12並點選console頁籤。')
-			let res = "唯有紮實的練習才能有令人滿意的成績，很感謝您的支持\n連結為過去蒐集到的書籍PDF，希望對您能有所幫助\nwww.google.com\n敬祝考上心中理想志願。"
-			console.log(res)
+			swal({
+				title: "挑戰成功",
+				text: "請在下方留下你的大名",
+				input:"text",
+				closeOnConfirm: false,
+				animation: "slide-from-top",
+				inputPlaceholder: "暱稱",
+				type:"success",
+				allowOutsideClick:false
+			}).then(
+			function(inputValue){
+				if (inputValue.trim() === "" || null) {
+					inputValue = "不知名的你"
+			  	}
+			  	swal({
+			  		title:"給"+inputValue+"的小祝福!", 
+			  		html:"<p>感謝您的支持!<br>下方連結為之前找到的電子書PDF，希望對您能有所幫助<br><a href=\"http://www.google.com\">http://www.google.com</a><br>祝 考上心中理想志願。</p>", 
+			  		type:"question",
+					allowOutsideClick:false
+			  	}).then(function(){
+			  		location.reload()
+			  	})
+			})
 			return false
 		}
 
 		var str = str || ""
-		alert(str+'挑戰失敗')
-    	location.reload()
+		swal({
+		  title: "挑戰失敗",
+		  text: "再來一局?",
+		  type: "error",
+		  animation: false,
+  		  customClass: 'animated bounceInDown',
+		  showCancelButton: true,
+		  confirmButtonColor: "#DD6B55",
+		  confirmButtonText: "好的",
+		  cancelButtonText: "回練習模式",
+		  closeOnConfirm: false,
+		  closeOnCancel: false,
+		  allowOutsideClick:false
+		}).then(
+			function(){
+			    swal({
+				  title: "預備",
+				  text: "即將開始..",
+				  timer: 1000,
+				  showConfirmButton: false,
+				  allowOutsideClick:false
+				}).then(
+				function () {},
+  				// handling the promise rejection
+				function() {
+					Global._countdown = Global.countdown
+					$('#bg').css({"background-color":"rgb(237, 197, 63)"});
+					$("#count").text(Global.count_down);
+					count_down(Global._countdown)
+					chg_thematic(Global.pairs.pop());
+				})
+			},
+			function() {
+				location.reload()
+			}
+		)
 	} 
 
 	function count_down() {
-		$('h1').text(Global.countdown)
-		if(Global.countdown===0) {
+		$('h1').text(Global._countdown)
+		if(Global._countdown<=0) {
+			$('h1').text(0)
 			challenge_check('Time\'s up\n')
 			return
 		}
 		setTimeout(function(){
-			count_down(--Global.countdown)
+			count_down(--Global._countdown)
 		},1000)
 	}
 
