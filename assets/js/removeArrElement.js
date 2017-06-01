@@ -3,7 +3,7 @@ var exports = {}
 exports = removeArrSameElement = function(array, ele){
 	var arr = [],
 		res = []
-	arr = array
+	arr = array.slice()
 
 	arr.forEach((v)=>{
 		if(v!==ele) res.push(v)

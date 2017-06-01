@@ -4,91 +4,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
 <link rel=stylesheet type="text/css" href="lib/css/bootstrap.min.css">
+<link rel="stylesheet" href="assets/css/gigantic-screen.css" />
+<link rel="stylesheet" media="only screen and (max-width: 900px)" href="assets/css/large-screen.css" />
+<link rel="stylesheet" media="only screen and (max-width: 700px)" href="assets/css/median-screen.css" />
 <script type="text/javascript" src="lib/js/jquery.js"></script>
-<style type="text/css">
-	body{
-		font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
-	}
-	h1,#thematic{
-		font-size:80px;
-	}
-	.multi{
-		font-size: 40px;
-	}
-	#thematic{
-		line-height:200px;
-		text-align:center;
-	}
-	#bg{
-		background-color: rgb(237, 197, 63);
-		color:white;
-		height:25%;
-		border-radius:20px;
-	}
-	#lookans{
-		margin:2px;
-	}
-	.option{
-		display:inline-block;
-		background-color:rgb(238, 228, 218);
-		color:rgb(119, 110, 101);
-		font-size: 80px;
-		border-radius:20px;
-		margin-right: 50px;
-		margin-left: 50px;
-		margin-bottom: 20px;
-		width: 254px;
-	}
-	#count{
-		margin-right:5%;
-	}
-	@media screen and (min-width: 200px) and (max-width: 700px) {
-	    h1,#thematic{
-	    	font-size:40px;
-	    }
-	    #thematic{
-			line-height:120px;
-			text-align:center;
-		}
-		.multi{
-			font-size: 20px;
-		}
-		#bg{
-			background-color: rgb(237, 197, 63);
-			color:white;
-			height:120px;
-			border-radius:20px;
-		}
-		.option{
-			display:inline-block;
-			text-align: center;
-			background-color:rgb(238, 228, 218);
-			color:rgb(119, 110, 101);
-			font-size: 40px;
-			border-radius:20px;
-			margin-top: 5px;
-			margin-right: 5px;
-			margin-left: 5px;
-			margin-bottom: 10px;
-			width: 130px;
-			height: 75px;
-		}
-		.option:hover{
-			display:inline-block;
-			text-align: center;
-			background-color:rgb(238, 228, 218);
-			color:rgb(119, 110, 101);
-			font-size: 40px;
-			border-radius:20px;
-			margin-top: 5px;
-			margin-right: 5px;
-			margin-left: 5px;
-			margin-bottom: 10px;
-			width: 130px;
-			height: 75px;
-		}
-	}
-</style>
 <script>
 	var Global = {'fcur_count':0,'cur_count':0,'challenge_mode':false}
 	$(function(){
@@ -134,8 +53,11 @@
     			$('#bg').css({"background-color":"red"});
 				$("#f_count").text(++Global.fcur_count);
 				if(Global.challenge_mode === true) {
+					$('h1').text("重新計時")
+					Global.countdown = 60
+					$('h1').text(Global.countdown)
 					Global.cur_count=0
-    				Global.countdown = 60
+					$("#count").text(Global.cur_count);
     			}
     		}
 		})
@@ -193,7 +115,7 @@
 				post = "?"
 				break
 		}
-		res = pre+"<span class=\"multi\">"+pre_under+"</span>="+post+"<span class=\"multi\">"+post_under+"</span>"
+		res = pre+"<span class=\"base\">"+pre_under+"</span>="+post+"<span class=\"base\">"+post_under+"</span>"
 		return res
 	}
 
@@ -232,16 +154,6 @@
 		return fn
 	}
 
-	function removeA(arr) {
-	    var what, a = arguments, L = a.length, ax;
-	    while (L > 1 && arr.length) {
-	        what = a[--L];
-	        while ((ax= arr.indexOf(what)) !== -1) {
-	            arr.splice(ax, 1);
-	        }
-	    }
-	    return arr;
-	}
 	function fix_mobile_hover() {
 	    var el = this;
 	    var par = el.parentNode;
@@ -265,7 +177,7 @@
 		<div id="bg">
 			<p id="thematic"></p>
 		</div>
-		<button id="surprise" class="btn btn-danger">挑戰mode</button>
+		<button id="surprise" class="btn btn-danger">挑戰模式</button>
 		<button id="lookans" class="btn btn-info">查看答案</button>
 		<button id="normal" class="btn btn-primary" style="display:none" onclick="location.reload()">練習模式</button>
 	</div>
@@ -276,4 +188,4 @@
 	</div>
 </div>
 </body>
-</html>
+</html>	

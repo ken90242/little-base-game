@@ -1,0 +1,45 @@
+@media screen and (min-width: 700px) and (max-width: 900px) {
+	h1,#thematic{
+		font-size:80px;
+	}
+	#thematic{
+		font-size: 100px;
+		height:300px;
+		line-height:300px;
+		text-align:center;
+	}
+	.base{
+		font-size: 40px;
+	}
+	#bg{
+		background-color: rgb(237, 197, 63);
+		color:white;
+		height:300px;
+		border-radius:20px;
+	}
+	.option{
+		display:inline-block;
+		background-color:rgb(238, 228, 218);
+		color:rgb(119, 110, 101);
+		font-size: 80px;
+		border-radius:20px;
+		margin-right: 50px;
+		margin-left: 50px;
+		margin-bottom: 20px;
+		width: 240px;
+		height: 220px
+	}
+	.option:hover{
+		display:inline-block;
+		text-align: center;
+		background-color:rgb(238, 228, 218);
+		color:rgb(119, 110, 101);
+		font-size: 80px;
+		border-radius:20px;
+		margin-right: 50px;
+		margin-left: 50px;
+		margin-bottom: 20px;
+		width: 240px;
+		height: 220px;
+	}
+}

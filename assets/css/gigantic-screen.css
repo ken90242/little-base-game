@@ -1,0 +1,38 @@
+body{
+	font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
+}
+h1,#thematic{
+	font-size:90px;
+}
+.base{
+	font-size: 40px;
+}
+#thematic{
+	height:150px;
+	line-height:150px;
+	text-align:center;
+}
+#bg{
+	background-color: rgb(237, 197, 63);
+	color:white;
+	height:150px;
+	border-radius:20px;
+}
+#lookans{
+	margin:2px;
+}
+.option{
+	display:inline-block;
+	background-color:rgb(238, 228, 218);
+	color:rgb(119, 110, 101);
+	font-size: 70px;
+	border-radius:20px;
+	margin-right: 50px;
+	margin-left: 50px;
+	margin-bottom: 15px;
+	width: 254px;
+	height:100px;
+}
+#count{
+	margin-right:5%;
+}	
