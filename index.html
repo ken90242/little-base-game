@@ -46,6 +46,7 @@
 			Global._countdown = Global.countdown
 			$('#bg').css({"background-color":"rgb(237, 197, 63)"});
 			chg_thematic(Global.pairs.pop());
+			$('.count_remind').text('剩餘題數')
 			$("#count").text(Global.cur_count);
 			$("#count").css({'margin-right':'0'});
 			$(".f_remind").css({'display':'none'})
@@ -68,10 +69,14 @@
 
 		$('.option').on('click', function(){
 			if($("#answer").val() == $(this).val()){
+				++Global.cur_count
     			$('#correct_audio')[0].play()
     			chg_thematic(Global.pairs.pop());
     			$('#bg').css({"background-color":"rgb(237, 197, 63)"});
-				$("#count").text(++Global.cur_count);
+				$("#count").text(Global.cur_count);
+				if(Global.challenge_mode) {
+					$("#count").text(Global.challenge_count - (Global.cur_count));
+				}
     		}else{
     			$('#bg').css({"background-color":"red"});
 				$("#f_count").text(++Global.fcur_count);
@@ -242,7 +247,7 @@
 <div class="container">
 	<div style="text-align:center;">
 		<h1 style="font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;color:rgb(119, 110, 101);">Quick Test</h1>
-		<span style="font-family: '微軟正黑體';font-size:20px;color:rgb(119, 110, 101);">累計題數:</span>
+		<span class="count_remind" style="font-family: '微軟正黑體';font-size:20px;color:rgb(119, 110, 101);">累計題數:</span>
 		<span id="count"></span>
 		<span class="f_remind"style="font-family: '微軟正黑體';font-size:20px;color:rgb(119, 110, 101);">答錯次數:</span>
 		<span id="f_count"></span>
