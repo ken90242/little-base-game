@@ -4,8 +4,8 @@
     }
     #thematic{
     	font-size: 50px;
-    	height: 150px;
-		line-height:150px;
+    	height: 120px;
+		line-height:120px;
 		text-align:center;
 	}
 	.multi{
@@ -14,7 +14,7 @@
 	#bg{
 		background-color: rgb(237, 197, 63);
 		color:white;
-		height:150px;
+		height:120px;
 		border-radius:20px;
 	}
 	.base{
