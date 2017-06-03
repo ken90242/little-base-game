@@ -20,7 +20,7 @@
 	 * @countdown: leftSec
 	 *
 	 */
-	var Global = {'fcur_count':0,'cur_count':0,'challenge_mode':false,'countdown':60,'_countdown':0,'challenge_count':50,'err_penalty':2}
+	var Global = {'fcur_count':0,'cur_count':0,'challenge_mode':false,'countdown':60,'_countdown':0,'challenge_count':5,'err_penalty':2}
 	$(function(){
 		$("<audio id=\"correct_audio\" style='display:none;'><source src='assets/audio/correct-trim.mp3'/></audio>").appendTo('body')
 		setCountDisplay(Global.cur_count)
@@ -82,7 +82,11 @@
     			$('#bg').css({"background-color":"rgb(237, 197, 63)"});
     			setCountDisplay(Global.cur_count)
 				if(Global.challenge_mode) {
-					setCountDisplay(Global.challenge_count - (Global.cur_count))
+					score = Global.challenge_count - (Global.cur_count)
+					if(score<=0) {
+						score = "太厲害啦!"
+					}
+					setCountDisplay(score)
 				}
     		}else{
     			$('#bg').css({"background-color":"red"});
