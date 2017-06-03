@@ -49,7 +49,7 @@
 		setTitle(Global.count_down)
 		$('.count_remind').text('剩餘題數')
 
-		setCountDisplay(Global.cur_count)
+		setCountDisplay(Global.goalToSuccess - Global.cur_count)
 	}
 
 	function setCountDisplay(str) {
