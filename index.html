@@ -20,7 +20,7 @@
 	 * @countdown: leftSec
 	 *
 	 */
-	var Global = {'fcur_count':0,'cur_count':0,'challenge_mode':false,'countdown':60,'_countdown':0,'challenge_count':5,'err_penalty':2}
+	var Global = {'fcur_count':0,'cur_count':0,'challenge_mode':false,'countdown':10,'_countdown':0,'challenge_count':5,'err_penalty':2}
 	$(function(){
 		$("<audio id=\"correct_audio\" style='display:none;'><source src='assets/audio/correct-trim.mp3'/></audio>").appendTo('body')
 		setCountDisplay(Global.cur_count)
@@ -125,7 +125,8 @@
 			  	}
 			  	swal({
 			  		title:"給"+inputValue+"的小祝福!", 
-			  		html:"<p>感謝您的支持!<br>下方連結為之前找到的電子書PDF，希望對您能有所幫助<br><a href=\"http://www.google.com\">http://www.google.com</a><br>祝 考上心中理想志願。</p>", 
+			  		// stop being silly to cheat on here
+			  		html:"<p>感謝您的支持!<br>下方連結為之前找到的電子書PDF，希望對您能有所幫助<br><a target=\"_blank\" href=\"https://goo.gl/G4acd9\">https://goo.gl/G4acd9</a><br>祝 考上心中理想志願。</p>", 
 			  		type:"question",
 					allowOutsideClick:false
 			  	}).then(function(){
