@@ -48,8 +48,7 @@
 		chg_thematic(Global.pairs.pop());
 		setTitle(Global.count_down)
 		$('.count_remind').text('剩餘題數')
-
-		setCountDisplay(Global.goalToSuccess - Global.cur_count)
+		setCountDisplay(Global.challenge_count - Global.cur_count)
 	}
 
 	function setCountDisplay(str) {
