@@ -23,7 +23,7 @@
 	var Global = {'fcur_count':0,'cur_count':0,'challenge_mode':false,'countdown':60,'_countdown':0,'challenge_count':50,'err_penalty':2}
 	$(function(){
 		$("<audio id=\"correct_audio\" style='display:none;'><source src='assets/audio/correct-trim.mp3'/></audio>").appendTo('body')
-		$("#count").text(Global.cur_count);
+		setCountDisplay(Global.cur_count)
 		$("#f_count").text(Global.fcur_count);
 
 		$.get('generate_qa/25',function(data,res){
@@ -34,25 +34,34 @@
 		
 	});
 
+	function challenge_init() {
+		Global.cur_count=0
+		Global.challenge_mode = true
+		Global._countdown = Global.countdown
+		$('#bg').css({"background-color":"rgb(237, 197, 63)"});
+		$("#count").css({'margin-right':'0'});
+		$(".f_remind").css({'display':'none'})
+		$("#f_count").css({'display':'none'})
+		$("#normal").css({'display':'inline-block','margin-top':'5px'})
+		$('#lookans').remove()
+		$('#surprise').remove()
+		chg_thematic(Global.pairs.pop());
+		setTitle(Global.count_down)
+		$('.count_remind').text('剩餘題數')
+
+		setCountDisplay(Global.cur_count)
+	}
+
+	function setCountDisplay(str) {
+		$("#count").text();
+	}
+
 	function eventRegister() {
 		$("#lookans").on('click', function(){
 			swal("請盡量自行計算", $("#answer").val(),'warning');
 		});
 		$("#surprise").on('click', function(){
-			Global.cur_count=0
-			Global.challenge_mode = true
-			Global._countdown = Global.countdown
-			$('#bg').css({"background-color":"rgb(237, 197, 63)"});
-			chg_thematic(Global.pairs.pop());
-			$('h1').text(Global.challenge_count - Global._countdown)
-			$('.count_remind').text('剩餘題數')
-			$("#count").text(Global.cur_count);
-			$("#count").css({'margin-right':'0'});
-			$(".f_remind").css({'display':'none'})
-			$("#f_count").css({'display':'none'})
-			$("#normal").css({'display':'inline-block','margin-top':'5px'})
-			$('#lookans').remove()
-			$('#surprise').remove()
+			challenge_init()
 			swal({
 				title:"成功條件", 
 				text:'請於'+Global.countdown+'秒內"連續"答對'+Global.challenge_count+'題\n若錯誤一次扣秒數'+Global.err_penalty+'秒',
@@ -68,13 +77,13 @@
 
 		$('.option').on('click', function(){
 			if($("#answer").val() == $(this).val()){
-				++Global.cur_count
-    			$('#correct_audio')[0].play()
+    			playCorrectSound()
+    			++Global.cur_count
     			chg_thematic(Global.pairs.pop());
     			$('#bg').css({"background-color":"rgb(237, 197, 63)"});
-				$("#count").text(Global.cur_count);
+    			setCountDisplay(Global.cur_count)
 				if(Global.challenge_mode) {
-					$("#count").text(Global.challenge_count - (Global.cur_count));
+					setCountDisplay(Global.challenge_count - (Global.cur_count))
 				}
     		}else{
     			$('#bg').css({"background-color":"red"});
@@ -85,10 +94,14 @@
 						Global._countdown = 0
 						challenge_check()
 					} 
-					$('h1').text(Global._countdown)
+					setTitle(Global._countdown)
     			}
     		}
 		})
+	}
+
+	function playCorrectSound() {
+		$('#correct_audio')[0].play()
 	}
 
 	function challenge_check(str) {
@@ -145,12 +158,8 @@
 				function () {},
   				// handling the promise rejection
 				function() {
-					Global._countdown = Global.countdown
-					Global.cur_count = 0
-					$('#bg').css({"background-color":"rgb(237, 197, 63)"});
-					$("#count").text(Global.challenge_count - Global.cur_count);
+					challenge_init()
 					count_down(Global._countdown)
-					chg_thematic(Global.pairs.pop());
 				})
 			},
 			function() {
@@ -159,10 +168,14 @@
 		)
 	} 
 
+	function setTitle(str)  {
+		$('h1').text(str)
+	}
+
 	function count_down() {
-		$('h1').text(Global._countdown)
+		setTitle(Global._countdown)
 		if(Global._countdown<=0) {
-			$('h1').text(0)
+			setTitle(0)
 			challenge_check('Time\'s up\n')
 			return
 		}
