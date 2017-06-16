@@ -8,7 +8,6 @@ app.get('/',function(req,res,next){
 	res.sendFile(__dirname+"/index.html")
 })
 app.get('/generate_qa/:num',function(req,res){
-	console.log()
 	var gen = require(__dirname+"/assets/js/generate_qa.js")
 	var obj = {}
 	let _limit = req.params.num || 200
