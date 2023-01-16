@@ -122,16 +122,20 @@
 			function(inputValue){
 				if (inputValue.trim() === "" || null) {
 					inputValue = "不知名的你"
-			  	}
-			  	swal({
-			  		title:"給"+inputValue+"的小祝福!", 
-			  		// stop being silly to cheat on here
-			  		html:"<p>感謝您的支持!<br>下方連結為之前找到的電子書PDF，希望對您能有所幫助<br><a target=\"_blank\" href=\"https://goo.gl/G4acd9\">https://goo.gl/G4acd9</a><br>祝 考上心中理想志願。</p>", 
-			  		type:"question",
-					allowOutsideClick:false
-			  	}).then(function(){
-			  		location.reload()
-			  	})
+				}
+				/*
+				如果你都願意進來看Source Code了，那麼我想你一定是有需要的人
+				這邊有一份電子書：https://tinyurl.com/4c88dyny
+				希望對你有所幫助！(但還是破一下關卡嘛，真的挺有趣的)
+				*/
+				swal({
+					title:"給"+inputValue+"的小祝福!",
+					html:"<p>感謝您的支持!<br>下方連結為之前找到的電子書PDF，希望對您能有所幫助<br><a target=\"_blank\" href=\"https://tinyurl.com/4c88dyny\">https://tinyurl.com/4c88dyny</a><br>祝 考上心中理想志願。</p>",
+					type:"question",
+				allowOutsideClick:false
+				}).then(function(){
+					location.reload()
+				})
 			})
 			return false
 		}
